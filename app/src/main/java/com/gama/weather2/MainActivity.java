@@ -99,8 +99,14 @@ public class MainActivity extends Activity {
                     try {
                         Geocoder geocoder = new Geocoder(MainActivity.this, Locale.getDefault());
                         List<Address> addresses = geocoder.getFromLocation(location.getLatitude(), location.getLongitude(), 1);
-                        String ad = addresses.get(0).getLocality();
-                        getWeatherData(ad);
+                        double lat = addresses.get(0).getLatitude();
+                        double lon = addresses.get(0).getLongitude();
+                        String name = addresses.get(0).getLocality();
+                        String latitude = String.valueOf(lat);
+                        String longitude = String.valueOf(lon);
+                        city.setText(name);
+                        String appId = "957b2b5e5ae2f3d67d26fc4af1618784";
+                        getCurrentData(latitude, longitude, appId);
                     } catch (IOException e) {
                         e.printStackTrace();
                     }
@@ -108,6 +114,8 @@ public class MainActivity extends Activity {
             }
         });
     }
+
+
 
     String dateConverter(long unix){
         Date date = new java.util.Date(unix*1000L);
@@ -151,6 +159,42 @@ public class MainActivity extends Activity {
 
                 Toast.makeText(getApplicationContext(),t.getMessage(),Toast.LENGTH_LONG).show();
 
+            }
+        });
+
+
+    }
+
+    private void getCurrentData(final String lat,final String lon,final String appId){
+
+        ApiFace apiInterface = ApiClient.getClient().create(ApiFace.class);
+
+        Call<Weather> call = apiInterface.getCurrentData(lat,lon,appId);
+
+        call.enqueue(new Callback<Weather>() {
+            @SuppressLint("SetTextI18n")
+            @Override
+            public void onResponse(@NonNull Call<Weather> call,@NonNull Response<Weather> response) {
+
+                assert response.body() != null;
+                tempText.setText((response.body().getMain().getTemp())+"°C");
+                minTempText.setText("Min Temp: "+response.body().getMain().getTempMin()+"°");
+                maxTempText.setText("Max Temp: "+response.body().getMain().getTempMax()+"°");
+                pressureText.setText(response.body().getMain().getPressure().toString());
+                humidityText.setText(response.body().getMain().getHumidity().toString());
+                descriptionText.setText(response.body().getWeather().get(0).getDescription());
+                windText.setText(response.body().getWind().getSpeed()+" Km/h");
+                unixSecond = response.body().getSys().getSunrise();
+                sunriseText.setText(dateConverter(unixSecond)+"AM");
+                unixSecond = response.body().getSys().getSunset();
+                sunsetText.setText(dateConverter(unixSecond)+"PM");
+
+            }
+
+            @Override
+            public void onFailure(@NonNull Call<Weather> call,@NonNull Throwable t) {
+
+                Toast.makeText(getApplicationContext(),t.getMessage(),Toast.LENGTH_LONG).show();
             }
         });
 

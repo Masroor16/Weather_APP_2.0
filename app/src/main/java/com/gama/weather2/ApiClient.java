@@ -12,7 +12,7 @@ public class ApiClient {
         if(retrofit == null){
 
             retrofit = new Retrofit.Builder()
-                    .baseUrl("http://api.openweathermap.org/data/2.5/")
+                    .baseUrl("http://api.openweathermap.org/")
                     .addConverterFactory(GsonConverterFactory.create())
                     .build();
 
