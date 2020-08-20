@@ -15,13 +15,13 @@
             />
 
         <group
-            android:translateX="-0.726"
-            android:translateY="0.9"
+            android:translateX="-0.43"
+            android:translateY="1.077"
             android:pivotX="180"
             android:pivotY="320"
-            android:scaleX="3.525"
-            android:scaleY="3.538"
-            android:rotation="-55.438"
+            android:scaleX="3.639"
+            android:scaleY="3.524"
+            android:rotation="-71.901"
             >
 
             <path
@@ -39,17 +39,17 @@
                         >
 
                         <item
-                            android:color="#7400AB"
+                            android:color="#FF7A00"
                             android:offset="0"
                             />
 
                         <item
-                            android:color="#BB4F00"
-                            android:offset="0.573"
+                            android:color="#7EB7C9"
+                            android:offset="0.49"
                             />
 
                         <item
-                            android:color="#7400AB"
+                            android:color="#003ACE"
                             android:offset="1"
                             />
 

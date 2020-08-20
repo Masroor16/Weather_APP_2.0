@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout
+    android:id="@+id/Layout"
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
@@ -13,7 +14,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:padding="10dp"
+        android:padding="8dp"
+        android:layout_marginTop="10dp"
         android:weightSum="3">
 
         <EditText
@@ -30,9 +32,10 @@
             android:id="@+id/city"/>
 
         <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/background"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_gravity="center"
+            android:src="@drawable/searchxl"
             android:layout_weight="0.1"
             android:id="@+id/searchImg"/>
     </LinearLayout>
@@ -42,20 +45,22 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:visibility="visible"
-        android:padding="10dp"
+        android:padding="16dp"
         android:paddingTop="20dp">
         <LinearLayout
             android:id="@+id/cityNameContainer"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
+            android:layout_marginTop="20dp"
             android:gravity="center">
             <TextView
                 android:id="@+id/cityText"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textSize="40dp"
-                android:text="Asansol" />
+                android:textColor="#FFFFFF"
+                android:text="City" />
         </LinearLayout>
 
 
@@ -65,7 +70,7 @@
             android:layout_height="wrap_content"
             android:orientation="vertical"
             android:layout_below="@+id/cityNameContainer"
-            android:paddingTop="30dp"
+            android:layout_marginTop="30dp"
             android:layout_centerInParent="true">
 
             <TextView
@@ -73,6 +78,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
+                android:textColor="#FFFFFF"
                 android:text="Description"
                 android:textSize="18dp" />
             <TextView
@@ -82,6 +88,7 @@
                 android:textSize="90dp"
                 android:fontFamily="sans-serif-thin"
                 android:layout_gravity="center"
+                android:textColor="#FFFFFF"
                 android:text="29°C"/>
 
             <LinearLayout
@@ -93,6 +100,7 @@
                     android:id="@+id/temp_min"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:textColor="#FFFFFF"
                     android:text="Min Temp: 05:05 AM"/>
                 <Space
                     android:layout_width="50dp"
@@ -102,6 +110,7 @@
                     android:id="@+id/temp_max"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:textColor="#FFFFFF"
                     android:text="Max Temp: 05:05 PM"/>
             </LinearLayout>
 
@@ -147,12 +156,14 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Wind"
+                        android:textColor="#EBEBEB"
                         android:textSize="12dp" />
 
                     <TextView
                         android:id="@+id/wind"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:textColor="#FFFFFF"
                         android:text="06:40 AM"
                         android:textSize="14dp" />
                 </LinearLayout>
@@ -179,12 +190,14 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:textSize="12dp"
+                        android:textColor="#EBEBEB"
                         android:text="Pressure"/>
                     <TextView
                         android:id="@+id/pressure"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:textSize="14dp"
+                        android:textColor="#FFFFFF"
                         android:text="06:40 AM"/>
                 </LinearLayout>
                 <Space android:layout_width="10dp" android:layout_height="wrap_content"/>
@@ -210,12 +223,14 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:textSize="12dp"
+                        android:textColor="#EBEBEB"
                         android:text="Humidity"/>
                     <TextView
                         android:id="@+id/humidity"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:textSize="14dp"
+                        android:textColor="#FFFFFF"
                         android:text="06:40 AM"/>
                 </LinearLayout>
                 <Space
@@ -255,12 +270,14 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:textSize="12dp"
+                        android:textColor="#EBEBEB"
                         android:text="Sunrise"/>
                     <TextView
                         android:id="@+id/sunrise"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:textSize="14dp"
+                        android:textColor="#FFFFFF"
                         android:text="06:40 AM"/>
                 </LinearLayout>
 
@@ -286,12 +303,14 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:textSize="12dp"
+                        android:textColor="#EBEBEB"
                         android:text="Sunset"/>
                     <TextView
                         android:id="@+id/sunset"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:textSize="14dp"
+                        android:textColor="#FFFFFF"
                         android:text="06:40 AM"/>
                 </LinearLayout>
 
@@ -318,12 +337,14 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:textSize="12dp"
+                        android:textColor="#EBEBEB"
                         android:text="Created By"/>
                     <TextView
                         android:id="@+id/about"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:textSize="14dp"
+                        android:textColor="#FFFFFF"
                         android:text="Masroor"/>
                 </LinearLayout>
                 <Space
