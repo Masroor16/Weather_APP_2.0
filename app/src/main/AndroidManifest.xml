@@ -17,6 +17,9 @@
         android:usesCleartextTraffic="true"
         android:networkSecurityConfig="@xml/security"
         tools:targetApi="n">
+        <meta-data
+            android:name="com.google.android.gms.ads.APPLICATION_ID"
+            android:value="ca-app-pub-8534706943575840~4157445353"/>
         <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

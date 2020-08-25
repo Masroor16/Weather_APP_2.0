@@ -6,12 +6,14 @@ import androidx.core.app.ActivityCompat;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
+import android.app.ActionBar;
 import android.app.Activity;
 import android.content.pm.PackageManager;
 import android.location.Address;
 import android.location.Geocoder;
 import android.location.Location;
 import android.os.Bundle;
+import android.os.Handler;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
@@ -20,6 +22,11 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdView;
+import com.google.android.gms.ads.MobileAds;
+import com.google.android.gms.ads.initialization.InitializationStatus;
+import com.google.android.gms.ads.initialization.OnInitializationCompleteListener;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -50,11 +57,26 @@ public class MainActivity extends Activity {
     EditText textField;
     FusedLocationProviderClient fusedLocationProviderClient;
     LinearLayout ll;
+    Handler handler = new Handler();
+    Runnable refresh;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this);
+        if (ActivityCompat.checkSelfPermission(MainActivity.this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
+            refresh = new Runnable() {
+                public void run() {
+                    getLocation();
+                }
+            };
+            handler.post(refresh);
+        } else {
+            ActivityCompat.requestPermissions(MainActivity.this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 44);
+        }
+
 
         search = findViewById(R.id.searchImg);
         tempText = findViewById(R.id.temp);
@@ -72,12 +94,18 @@ public class MainActivity extends Activity {
 
         setBackground();
 
-        fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this);
-        if (ActivityCompat.checkSelfPermission(MainActivity.this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
-            getLocation();
-        } else {
-            ActivityCompat.requestPermissions(MainActivity.this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 44);
-        }
+        AdView mAdView;
+
+        MobileAds.initialize(this, new OnInitializationCompleteListener() {
+            @Override
+            public void onInitializationComplete(InitializationStatus initializationStatus) {
+            }
+        });
+        mAdView = findViewById(R.id.adView);
+        AdRequest adRequest = new AdRequest.Builder().build();
+        mAdView.loadAd(adRequest);
+
+
 
         search.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -144,37 +172,44 @@ public class MainActivity extends Activity {
 
         Call<Weather> call = apiInterface.getWeatherData(name);
 
-        call.enqueue(new Callback<Weather>() {
-            @SuppressLint("SetTextI18n")
-            @Override
-            public void onResponse(@NonNull Call<Weather> call, @NonNull Response<Weather> response) {
+            call.enqueue(new Callback<Weather>() {
+                @SuppressLint("SetTextI18n")
+                @Override
+                public void onResponse(@NonNull Call<Weather> call, @NonNull Response<Weather> response) {
+                    try {
 
-                assert response.body() != null;
-                double rndm = Math.random()*5;
-                double max =(response.body().getMain().getTempMax()+rndm);
-                double min =(response.body().getMain().getTempMin()-(Math.random()*2));
-                tempText.setText((response.body().getMain().getTemp())+"°C");
-                minTempText.setText("Min Temp: "+Math.ceil(min) +"°");
-                maxTempText.setText("Max Temp: "+Math.ceil(max) +"°");
-                pressureText.setText(response.body().getMain().getPressure().toString());
-                humidityText.setText(response.body().getMain().getHumidity().toString());
-                descriptionText.setText(response.body().getWeather().get(0).getDescription());
-                windText.setText(response.body().getWind().getSpeed()+" Km/h");
-                city.setText(name);
-                sunrise = response.body().getSys().getSunrise();
-                sunriseText.setText(dateConverter(sunrise)+"AM");
-                sunset = response.body().getSys().getSunset();
-                sunsetText.setText(dateConverter(sunset)+"PM");
+                        assert response.body() != null;
+                        double rndm = Math.random() * 5;
+                        double max = (response.body().getMain().getTempMax() + rndm);
+                        double min = (response.body().getMain().getTempMin() - (Math.random() * 2));
+                        tempText.setText((response.body().getMain().getTemp()) + "°C");
+                        minTempText.setText("Min Temp: " + Math.ceil(min) + "°");
+                        maxTempText.setText("Max Temp: " + Math.ceil(max) + "°");
+                        pressureText.setText(response.body().getMain().getPressure().toString());
+                        humidityText.setText(response.body().getMain().getHumidity().toString());
+                        descriptionText.setText(response.body().getWeather().get(0).getDescription());
+                        windText.setText(response.body().getWind().getSpeed() + " Km/h");
+                        city.setText(name);
+                        sunrise = response.body().getSys().getSunrise();
+                        sunriseText.setText(dateConverter(sunrise) + "AM");
+                        sunset = response.body().getSys().getSunset();
+                        sunsetText.setText(dateConverter(sunset) + "PM");
+                    }
+                    catch (Exception e){
 
-            }
+                        Toast.makeText(MainActivity.this,"Place not found!!",Toast.LENGTH_SHORT).show();
 
-            @Override
-            public void onFailure(@NonNull Call<Weather> call,@NonNull Throwable t) {
+                    }
 
-                Toast.makeText(getApplicationContext(),t.getMessage(),Toast.LENGTH_LONG).show();
+                }
 
-            }
-        });
+                @Override
+                public void onFailure(@NonNull Call<Weather> call, @NonNull Throwable t) {
+
+                    Toast.makeText(getApplicationContext(), t.getMessage(), Toast.LENGTH_LONG).show();
+
+                }
+            });
 
 
     }
