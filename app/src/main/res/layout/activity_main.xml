@@ -10,7 +10,9 @@
     android:background="@drawable/bg_gradient"
     android:orientation="vertical">
 
-    <LinearLayout
+    <include layout="@layout/user_search"/>
+
+    <!--<LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
@@ -38,7 +40,7 @@
             android:src="@drawable/searchxl"
             android:layout_weight="0.1"
             android:id="@+id/searchImg"/>
-    </LinearLayout>
+    </LinearLayout>-->
 
     <RelativeLayout
         android:id="@+id/mainContainer"

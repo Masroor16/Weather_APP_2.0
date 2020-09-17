@@ -15,7 +15,9 @@ import android.location.Location;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.View;
+import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -78,19 +80,20 @@ public class MainActivity extends Activity {
         }
 
 
-        search = findViewById(R.id.searchImg);
+        //search = findViewById(R.id.searchImg);
         tempText = findViewById(R.id.temp);
         maxTempText = findViewById(R.id.temp_max);
         minTempText = findViewById(R.id.temp_min);
         windText = findViewById(R.id.wind);
         pressureText = findViewById(R.id.pressure);
         humidityText = findViewById(R.id.humidity);
-        textField = findViewById(R.id.city);
+        textField = findViewById(R.id.search);
         descriptionText = findViewById(R.id.status);
         city = findViewById(R.id.cityText);
         sunriseText = findViewById(R.id.sunrise);
         sunsetText = findViewById(R.id.sunset);
         ll =findViewById(R.id.Layout);
+
 
         setBackground();
 
@@ -107,7 +110,7 @@ public class MainActivity extends Activity {
 
 
 
-        search.setOnClickListener(new View.OnClickListener() {
+        /*search.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 //Here we will call API
@@ -115,6 +118,18 @@ public class MainActivity extends Activity {
                 getWeatherData(textField.getText().toString().trim());
 
 
+            }
+        });*/
+
+        textField.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+            @Override
+            public boolean onEditorAction(TextView textView, int i, KeyEvent keyEvent) {
+                if(i == EditorInfo.IME_ACTION_SEARCH){
+                    getWeatherData(textField.getText().toString().trim());
+                    Log.e("city", textField.getText().toString());
+                    return true;
+                }
+                return false;
             }
         });
 
